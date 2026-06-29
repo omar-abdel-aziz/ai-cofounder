@@ -12,6 +12,7 @@ export default function App() {
   const wsRef = useRef(null);
   if (!wsRef.current) wsRef.current = getWs();
   const ws = wsRef.current;
+  const sidebarRef = useRef(null);
 
   const [connected, setConnected] = useState(false);
   const [detect, setDetect] = useState(null);
@@ -71,6 +72,10 @@ export default function App() {
     ws.send({ type });
   }
 
+  // Reset the sidebar scroll when switching wizard <-> launcher so the shorter
+  // panel isn't hidden below a stale scroll position.
+  useEffect(() => { if (sidebarRef.current) sidebarRef.current.scrollTop = 0; }, [launched]);
+
   const canLaunch = !!(detect && detect.claudeInstalled && detect.loggedIn && detect.skillsInstalled);
 
   return (
@@ -88,7 +93,7 @@ export default function App() {
       </header>
 
       <div className="layout">
-        <aside className="sidebar">
+        <aside className="sidebar" ref={sidebarRef}>
           {launched
             ? <SkillLauncher ws={ws} skills={skillsList} />
             : <SetupWizard detect={detect} statuses={statuses} loginUrl={loginUrl} act={act} canLaunch={canLaunch} />}
