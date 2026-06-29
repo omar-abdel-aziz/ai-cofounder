@@ -1,0 +1,13 @@
+node_modules/
+web/dist/
+dist/
+
+# per-session claude workspaces (created at runtime)
+workspaces/*
+!workspaces/.gitkeep
+
+.DS_Store
+*.log
+npm-debug.log*
+.env
+.vite/
