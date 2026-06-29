@@ -7,9 +7,13 @@ browser — **all with buttons, no terminal knowledge required**. Then you get a
 embedded terminal running an interactive `claude` session in a private workspace,
 plus one-click skill launchers.
 
-> Runs entirely on **your machine**. It uses **your own Claude subscription** and
-> sends your credentials **nowhere** — sign-in happens in Claude Code's own local
-> credential store (macOS Keychain / `~/.claude/.credentials.json`).
+> **This runs on your own computer — it is not a website you visit.** You start a
+> small local server on your machine and open it in your browser at
+> `http://localhost`. That's by design: the app drives *your own* Claude Code with
+> *your own* subscription, installs it for you, and reads your local sign-in — none
+> of which a remote web page could do. Your credentials are sent **nowhere**;
+> sign-in lives in Claude Code's own local store (macOS Keychain /
+> `~/.claude/.credentials.json`), and the server listens on `127.0.0.1` only.
 
 Supported: **macOS** and **Windows** (native, no WSL).
 
@@ -17,8 +21,11 @@ Supported: **macOS** and **Windows** (native, no WSL).
 
 ## Prerequisites
 
-- **Node.js ≥ 18** (only to run this app — Claude Code itself is a native binary
-  and needs no Node). Check with `node --version`.
+- **Node.js ≥ 18** — the *only* thing you install by hand (Claude Code itself is a
+  native binary that the wizard installs for you).
+  - macOS / Windows: download the **LTS** installer from <https://nodejs.org> and run it
+    (macOS users with Homebrew can instead run `brew install node`).
+  - Verify in a terminal: `node --version` → should print `v18` or higher.
 - A **Claude Pro or Max** subscription (you'll sign in during setup).
 - Internet access (to download the Claude Code installer and for sign-in).
 
@@ -26,18 +33,40 @@ You do **not** need to install Claude Code yourself — the wizard does it.
 
 ---
 
-## Quick start
+## Run it (from source)
+
+You use a terminal **once** to start the app; everything after that is buttons in
+your browser.
+
+**1. Get the code** — either:
+- with git: `git clone <REPO_URL>` then `cd ai-cofounder`, **or**
+- download the ZIP, unzip it, and open a terminal in the unzipped `ai-cofounder` folder.
+
+**2. Install dependencies** (first time only):
 
 ```bash
-npm install        # installs server + UI dependencies (incl. node-pty, prebuilt)
+npm install
+```
 
-# Development (recommended): live-reloading UI + server together
-npm run dev        # opens http://localhost:5173
+**3. Start it:**
 
-# — or — Production: build the UI once, then serve it
-npm run build
+```bash
+npm run dev        # opens http://localhost:5173 in your browser automatically
+```
+
+Keep that terminal window **open** while you use the app (closing it stops the
+server). To stop, press `Ctrl-C` in the terminal.
+
+<details>
+<summary>Alternative: production mode (<code>npm start</code>)</summary>
+
+```bash
+npm run build      # build the UI once
 npm start          # serves http://localhost:3000 and opens your browser
 ```
+
+Use a different port with `PORT=3100 npm start`.
+</details>
 
 Then in the browser:
 
