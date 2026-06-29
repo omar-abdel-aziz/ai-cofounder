@@ -39,7 +39,7 @@ You use a terminal **once** to start the app; everything after that is buttons i
 your browser.
 
 **1. Get the code** — either:
-- with git: `git clone <REPO_URL>` then `cd ai-cofounder`, **or**
+- with git: `git clone https://github.com/omar-abdel-aziz/ai-cofounder.git` then `cd ai-cofounder`, **or**
 - download the ZIP, unzip it, and open a terminal in the unzipped `ai-cofounder` folder.
 
 **2. Install dependencies** (first time only):
