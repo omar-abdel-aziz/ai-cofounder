@@ -17,12 +17,19 @@ function defaultShell() {
 
 // Spawn a PTY for `file args` in `cwd`, with our install bin dir on PATH.
 function spawnPty(file, args = [], cwd) {
+  const env = withBinOnPath(process.env);
+  // Guarantee billing goes to the user's Claude subscription, never the API:
+  // strip any API key/token from the child env so interactive `claude` can't be
+  // diverted to pay-as-you-go API billing. (Phase 1 is subscription-only; the
+  // SDK/API path is deliberately out of scope.)
+  delete env.ANTHROPIC_API_KEY;
+  delete env.ANTHROPIC_AUTH_TOKEN;
   return pty.spawn(file, args, {
     name: 'xterm-256color',
     cols: 80,
     rows: 24,
     cwd: cwd || os.homedir(),
-    env: withBinOnPath(process.env),
+    env,
   });
 }
 
