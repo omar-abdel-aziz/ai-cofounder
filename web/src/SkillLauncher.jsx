@@ -29,8 +29,9 @@ export default function SkillLauncher({ ws, skills }) {
       </div>
 
       <div className="hint">
-        Tip: the first time, Claude may ask you to pick a theme and to trust this folder —
-        approve those in the terminal. Then your skill will run.
+        Tip: type in the message box, or click a skill above. If Claude ever shows a
+        choice or permission prompt, answer it with the quick-key buttons
+        (Yes / No / Enter / arrows) below the terminal — no need to click into it.
       </div>
     </div>
   );
