@@ -3,6 +3,7 @@ import { getWs, ClientMsg, ServerMsg } from './ws.js';
 import TerminalView from './TerminalView.jsx';
 import SetupWizard from './SetupWizard.jsx';
 import SkillLauncher from './SkillLauncher.jsx';
+import ComposeBox from './ComposeBox.jsx';
 
 // The terminal stays mounted across the wizard -> session transition so its
 // scrollback (install / login output) is preserved. Only the left control panel
@@ -95,10 +96,21 @@ export default function App() {
 
         <main className="terminal-pane">
           <div className="terminal-bar">
-            <span className="dot red" /><span className="dot yellow" /><span className="dot green" />
-            <span className="terminal-title">{launched ? 'claude — your workspace' : 'setup output'}</span>
+            {launched ? (
+              <>
+                <span className="claude-badge">✦</span>
+                <span className="terminal-title">Claude — your co-founder</span>
+                <span className="live-dot" title="live session" />
+              </>
+            ) : (
+              <>
+                <span className="dot red" /><span className="dot yellow" /><span className="dot green" />
+                <span className="terminal-title">setup output</span>
+              </>
+            )}
           </div>
           <TerminalView ws={ws} />
+          {launched && <ComposeBox ws={ws} />}
         </main>
       </div>
 

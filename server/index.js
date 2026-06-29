@@ -26,6 +26,7 @@ const install = require('./setup/install');
 const skills = require('./setup/skills');
 const login = require('./setup/login');
 const paths = require('./setup/paths');
+const trust = require('./setup/trust');
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = '127.0.0.1';
@@ -250,6 +251,10 @@ wss.on('connection', (ws) => {
       return;
     }
     try { fs.mkdirSync(wsDir, { recursive: true }); } catch {}
+    // Pre-accept the per-folder trust dialog for this workspace we just created,
+    // so non-technical users land straight on the prompt instead of a scary
+    // "do you trust this folder?" screen. Best-effort; dialog still shows if it fails.
+    trust.pretrustWorkspace(wsDir);
     const bin = cur.claudePath || (paths.isWin ? 'claude.exe' : 'claude');
     reply({ type: ServerMsg.STATUS, step: Step.SESSION, state: State.RUNNING, detail: 'Starting your Claude session…' });
     // Interactive claude in its own workspace. Permission prompts + first-run
